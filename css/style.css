@@ -1,0 +1,71 @@
+/* Import a fantasy-style font */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700&display=swap');
+
+/* Base styles */
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(to bottom, #e0f2fe, #ffffff);
+}
+
+/* Optional: Logo font */
+h1 {
+  font-family: 'Press Start 2P', cursive;
+  letter-spacing: -1px;
+  font-size: 1.5rem;
+}
+
+/* Hero title */
+h2 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+}
+
+/* Buttons */
+button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Feature Cards */
+.feature-card {
+  background: white;
+  border-radius: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  border: 2px solid transparent;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+  border-color: #3b82f6; /* blue-500 */
+}
+
+/* Avatar image */
+img {
+  border-radius: 1rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+img:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth transitions */
+a,
+button,
+.feature-card {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .feature-card {
+    margin-bottom: 1rem;
+  }
+}
