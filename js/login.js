@@ -12,11 +12,10 @@ document.getElementById('login-form').addEventListener('submit', function (event
     errorMessage.classList.remove('hidden');
     errorMessage.textContent = '⚠️ Please fill in both email and password.';
   } else {
-    // Fake success login for frontend-only mode
     document.getElementById('success-modal').classList.remove('hidden');
 
     setTimeout(function () {
-      window.location.href = `${window.location.origin}/StudyQuest/dashboard.html`;
-    }, 2000); // shorter delay
+      window.location.href = 'https://christiansupremo.github.io/StudyQuest/dashboard.html';
+    }, 2000);
   }
 });
