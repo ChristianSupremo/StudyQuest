@@ -16,7 +16,7 @@ document.getElementById('login-form').addEventListener('submit', function (event
     document.getElementById('success-modal').classList.remove('hidden');
 
     setTimeout(function () {
-      window.location.href = '../dashboard.html';
+      window.location.href = `${window.location.origin}/StudyQuest/dashboard.html`;
     }, 2000); // shorter delay
   }
 });
