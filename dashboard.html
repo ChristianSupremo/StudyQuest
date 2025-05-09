@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyQuest Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center px-6 py-4 shadow-sm bg-white sticky top-0 z-10">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <img src="img/logo.png" alt="Logo" class="w-6 h-6">
+        <span class="text-xl text-blue-700 font-bold logo-font">StudyQuest</span>
+      </div>
+    <nav class="space-x-6 text-sm">
+        <a href="index.html" class="hover:text-blue-600">Home</a>
+        <a href="planner.html" class="hover:text-blue-600">Planner</a>  
+        <a href="settings.html" class="hover:text-blue-600">Settings</a>
+        <a href="register.html" class="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700">Log Out</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 container mx-auto px-6 py-8">
+    
+    <!-- Greeting and Avatar -->
+    <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+        <div class="text-center md:text-left mb-4 md:mb-0">
+          <h2 class="text-3xl md:text-4xl font-bold logo-font">
+            Welcome Back, <span id="usernameDisplay">Student</span>!
+          </h2>
+          <input type="text" id="usernameInput" placeholder="Enter your name"
+            class="mt-2 px-4 py-2 border rounded-md w-64 hidden" />
+          <button id="editNameBtn" class="text-blue-600 underline text-sm mt-1">Edit Name</button>
+        </div>
+        <div class="text-center">
+          <img id="avatarImg" src="images/avatar.png" alt="User Avatar"
+            class="w-20 h-20 rounded-full border-4 border-blue-600 mx-auto" />
+          <input type="file" id="avatarInput" class="hidden" accept="image/*" />
+          <button id="changeAvatarBtn" class="text-blue-600 underline text-sm mt-1">Change Avatar</button>
+        </div>
+      </div>
+
+      <!-- About Me -->
+      <div class="bg-white rounded-2xl shadow p-6 mb-6">
+        <h3 class="text-xl font-semibold mb-2">About Me</h3>
+        <textarea id="aboutMe" rows="3" placeholder="Write a little bit about yourself..."
+          class="w-full border rounded-md px-4 py-2"></textarea>
+      </div>
+
+    <!-- Stats Section -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- XP Level -->
+      <div class="bg-white rounded-2xl shadow p-6 text-center">
+        <h3 class="text-xl font-semibold mb-2">Level 5</h3>
+        <p class="text-gray-500 mb-2">XP: 1230 / 1500</p>
+        <div class="w-full bg-gray-200 rounded-full h-4">
+          <div class="bg-blue-600 h-4 rounded-full" style="width: 82%;"></div>
+        </div>
+      </div>
+
+      <!-- Pomodoro Stats -->
+      <div class="bg-white rounded-2xl shadow p-6 text-center">
+        <h3 class="text-xl font-semibold mb-2">Focus Sessions</h3>
+        <p class="text-3xl font-bold text-green-500">28</p>
+        <p class="text-gray-500">This Week</p>
+      </div>
+
+      <!-- Quests Completed -->
+      <div class="bg-white rounded-2xl shadow p-6 text-center">
+        <h3 class="text-xl font-semibold mb-2">Quests Completed</h3>
+        <p class="text-3xl font-bold text-purple-600">14</p>
+        <p class="text-gray-500">Out of 20</p>
+      </div>
+    </section>
+
+    <section class="mt-10">
+        <h3 class="text-2xl font-semibold mb-4">Badges Earned</h3>
+        <div class="flex gap-4 flex-wrap">
+          <div class="bg-white p-4 rounded-xl shadow text-center w-32">
+            <img src="img/badge1.png" alt="Badge" class="w-12 h-12 mx-auto mb-2" />
+            <p class="text-sm font-medium">Streak Master</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow text-center w-32">
+            <img src="img/badge2.png" alt="Badge" class="w-12 h-12 mx-auto mb-2" />
+            <p class="text-sm font-medium">Task Slayer</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow text-center w-32">
+            <img src="img/badge3.png" alt="Badge" class="w-12 h-12 mx-auto mb-2" />
+            <p class="text-sm font-medium">Early Bird</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Today's Quests -->
+    <section class="mt-12 px-6 max-w-4xl mx-auto">
+        <h3 class="text-2xl font-semibold mb-6">Today's Quests</h3>
+        <div class="grid gap-4">
+          <!-- Quest Item -->
+          <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <input type="checkbox" class="h-5 w-5 accent-blue-600">
+              <div>
+                <div class="flex items-center gap-2 text-lg font-medium">
+                  <span>📘</span>
+                  <span>Read Chapter 5: Biology</span>
+                </div>
+                <p class="text-sm text-gray-400">Due: <span class="text-red-500 font-semibold">Today</span></p>
+              </div>
+            </div>
+            <span class="text-sm bg-blue-100 text-blue-600 px-3 py-1 rounded-full font-semibold">+10 XP</span>
+          </div>
+      
+          <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <input type="checkbox" class="h-5 w-5 accent-blue-600">
+              <div>
+                <div class="flex items-center gap-2 text-lg font-medium">
+                  <span>📝</span>
+                  <span>Submit Math Homework</span>
+                </div>
+                <p class="text-sm text-gray-400">Due: <span class="text-yellow-500 font-semibold">Tomorrow</span></p>
+              </div>
+            </div>
+            <span class="text-sm bg-green-100 text-green-600 px-3 py-1 rounded-full font-semibold">+15 XP</span>
+          </div>
+      
+          <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <input type="checkbox" class="h-5 w-5 accent-blue-600">
+              <div>
+                <div class="flex items-center gap-2 text-lg font-medium">
+                  <span>📖</span>
+                  <span>Review Flashcards</span>
+                </div>
+                <p class="text-sm text-gray-400">Due: <span class="text-indigo-500 font-semibold">Tonight</span></p>
+              </div>
+            </div>
+            <span class="text-sm bg-purple-100 text-purple-600 px-3 py-1 rounded-full font-semibold">+5 XP</span>
+          </div>
+        </div>
+      </section>
+      
+  
+  
+
+    <!-- Pomodoro Timer -->
+    <section class="mt-12 text-center">
+      <h3 class="text-2xl font-semibold mb-2">Pomodoro Timer</h3>
+      <p class="text-gray-600 mb-4">Start a 25-minute focus session</p>
+      <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 text-lg rounded-xl">
+        Start Pomodoro
+      </button>
+    </section>
+  </main>
+  <script>
+    // Username edit
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const usernameInput = document.getElementById('usernameInput');
+    const editNameBtn = document.getElementById('editNameBtn');
+  
+    editNameBtn.addEventListener('click', () => {
+      usernameInput.classList.toggle('hidden');
+      if (!usernameInput.classList.contains('hidden')) {
+        usernameInput.value = usernameDisplay.textContent;
+        usernameInput.focus();
+      }
+    });
+  
+    usernameInput.addEventListener('change', () => {
+      usernameDisplay.textContent = usernameInput.value || 'Student';
+      localStorage.setItem('studyquest-username', usernameInput.value);
+      usernameInput.classList.add('hidden');
+    });
+  
+    // Avatar upload
+    const avatarImg = document.getElementById('avatarImg');
+    const avatarInput = document.getElementById('avatarInput');
+    const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+  
+    changeAvatarBtn.addEventListener('click', () => avatarInput.click());
+  
+    avatarInput.addEventListener('change', () => {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        avatarImg.src = e.target.result;
+        localStorage.setItem('studyquest-avatar', e.target.result);
+      };
+      if (avatarInput.files[0]) reader.readAsDataURL(avatarInput.files[0]);
+    });
+  
+    // About Me
+    const aboutMe = document.getElementById('aboutMe');
+    aboutMe.addEventListener('input', () => {
+      localStorage.setItem('studyquest-about', aboutMe.value);
+    });
+  
+    // Load saved data
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedName = localStorage.getItem('studyquest-username');
+      if (savedName) usernameDisplay.textContent = savedName;
+  
+      const savedAvatar = localStorage.getItem('studyquest-avatar');
+      if (savedAvatar) avatarImg.src = savedAvatar;
+  
+      const savedAbout = localStorage.getItem('studyquest-about');
+      if (savedAbout) aboutMe.value = savedAbout;
+    });
+  </script>
+</body>
+</html>

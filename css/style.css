@@ -1,10 +1,17 @@
-/* Import a fantasy-style font */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.logo-font {
+  font-family: 'Press Start 2P', cursive;
+}
 
 /* Base styles */
 body {
   font-family: 'Nunito', sans-serif;
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
+}
+
+.logo-font {
+  font-family: 'Press Start 2P', cursive;
 }
 
 /* Optional: Logo font */
