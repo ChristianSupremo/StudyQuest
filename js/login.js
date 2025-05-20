@@ -8,7 +8,6 @@ document.getElementById('login-form').addEventListener('submit', function (event
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value.trim();
 
-<<<<<<< HEAD
   // Simulated users (replace this with real backend validation in production)
   const fakeUsers = [
     { email: 'user@example.com', password: 'password123' },
@@ -19,17 +18,6 @@ document.getElementById('login-form').addEventListener('submit', function (event
   if (!email || !password) {
     showError('⚠️ Please fill in both email and password.');
     return;
-=======
-  if (email === '' || password === '') {
-    errorMessage.classList.remove('hidden');
-    errorMessage.textContent = '⚠️ Please fill in both email and password.';
-  } else {
-    document.getElementById('success-modal').classList.remove('hidden');
-
-    setTimeout(function () {
-      window.location.href = 'https://christiansupremo.github.io/StudyQuest/dashboard.html';
-    }, 2000);
->>>>>>> 7018e25fd7088d838ef70ad582cdb8d9ae9c8f15
   }
 
   if (!validateEmail(email)) {
