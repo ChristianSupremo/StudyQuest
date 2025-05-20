@@ -18,7 +18,7 @@
         <span class="text-xl text-blue-700 font-bold logo-font">StudyQuest</span>
       </div>
     <nav class="space-x-6 text-sm">
-        <a href="index.html" class="hover:text-blue-600">Home</a>
+        <a href="Dashboard.html" class="hover:text-blue-600">Dashboard</a>
         <a href="planner.html" class="hover:text-blue-600">Planner</a>  
         <a href="settings.html" class="hover:text-blue-600">Settings</a>
         <a href="register.html" class="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700">Log Out</a>
@@ -45,6 +45,27 @@
           <button id="changeAvatarBtn" class="text-blue-600 underline text-sm mt-1">Change Avatar</button>
         </div>
       </div>
+
+      <!-- Pomodoro Timer (moved to top) -->
+    <section class="mb-8">
+      <div class="bg-white rounded-2xl shadow p-6 text-center">
+        <div class="flex justify-center gap-4 mb-4">
+          <button id="pomodoro-btn" class="session-btn bg-red-500 text-white px-4 py-2 rounded-xl font-medium">Pomodoro</button>
+          <button id="short-btn" class="session-btn bg-blue-500 text-white px-4 py-2 rounded-xl font-medium">Short Break</button>
+          <button id="long-btn" class="session-btn bg-green-500 text-white px-4 py-2 rounded-xl font-medium">Long Break</button>
+        </div>
+        <h3 class="text-2xl font-semibold mb-4">Pomodoro Timer</h3>
+        <div id="timer-display" class="text-4xl font-bold text-red-500 mb-4">25:00</div>
+        <div class="flex justify-center gap-4">
+          <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 text-lg rounded-xl" id="start-btn">
+            Start Pomodoro
+          </button>
+          <button class="bg-gray-300 hover:bg-gray-400 text-black px-6 py-2 text-lg rounded-xl" id="reset-btn">
+            Reset
+          </button>
+        </div>
+      </div>
+    </section>
 
       <!-- About Me -->
       <div class="bg-white rounded-2xl shadow p-6 mb-6">
@@ -146,72 +167,9 @@
           </div>
         </div>
       </section>
-      
-  
-  
-
-    <!-- Pomodoro Timer -->
-    <section class="mt-12 text-center">
-      <h3 class="text-2xl font-semibold mb-2">Pomodoro Timer</h3>
-      <p class="text-gray-600 mb-4">Start a 25-minute focus session</p>
-      <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 text-lg rounded-xl">
-        Start Pomodoro
-      </button>
-    </section>
   </main>
-  <script>
-    // Username edit
-    const usernameDisplay = document.getElementById('usernameDisplay');
-    const usernameInput = document.getElementById('usernameInput');
-    const editNameBtn = document.getElementById('editNameBtn');
+
+  <script src="js/dashboard.js"></script>
   
-    editNameBtn.addEventListener('click', () => {
-      usernameInput.classList.toggle('hidden');
-      if (!usernameInput.classList.contains('hidden')) {
-        usernameInput.value = usernameDisplay.textContent;
-        usernameInput.focus();
-      }
-    });
-  
-    usernameInput.addEventListener('change', () => {
-      usernameDisplay.textContent = usernameInput.value || 'Student';
-      localStorage.setItem('studyquest-username', usernameInput.value);
-      usernameInput.classList.add('hidden');
-    });
-  
-    // Avatar upload
-    const avatarImg = document.getElementById('avatarImg');
-    const avatarInput = document.getElementById('avatarInput');
-    const changeAvatarBtn = document.getElementById('changeAvatarBtn');
-  
-    changeAvatarBtn.addEventListener('click', () => avatarInput.click());
-  
-    avatarInput.addEventListener('change', () => {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        avatarImg.src = e.target.result;
-        localStorage.setItem('studyquest-avatar', e.target.result);
-      };
-      if (avatarInput.files[0]) reader.readAsDataURL(avatarInput.files[0]);
-    });
-  
-    // About Me
-    const aboutMe = document.getElementById('aboutMe');
-    aboutMe.addEventListener('input', () => {
-      localStorage.setItem('studyquest-about', aboutMe.value);
-    });
-  
-    // Load saved data
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedName = localStorage.getItem('studyquest-username');
-      if (savedName) usernameDisplay.textContent = savedName;
-  
-      const savedAvatar = localStorage.getItem('studyquest-avatar');
-      if (savedAvatar) avatarImg.src = savedAvatar;
-  
-      const savedAbout = localStorage.getItem('studyquest-about');
-      if (savedAbout) aboutMe.value = savedAbout;
-    });
-  </script>
 </body>
 </html>
