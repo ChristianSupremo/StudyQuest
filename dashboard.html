@@ -119,28 +119,34 @@
       </section>
     </main>
 
+
+    <!-- Add Quests -->
+
     <!-- Today's Quests -->
     <section class="mt-12 px-6 max-w-4xl mx-auto">
         <h3 class="text-2xl font-semibold mb-6">Today's Quests</h3>
         <div class="grid gap-4">
           <!-- Quest Item -->
-          <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-              <input type="checkbox" class="h-5 w-5 accent-blue-600">
-              <div>
-                <div class="flex items-center gap-2 text-lg font-medium">
-                  <span>📘</span>
-                  <span>Read Chapter 5: Biology</span>
-                </div>
-                <p class="text-sm text-gray-400">Due: <span class="text-red-500 font-semibold">Today</span></p>
+        <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <input type="checkbox" class="quest-checkbox h-5 w-5 accent-blue-600" data-xp="10" data-id="quest1">
+            <div>
+              <div class="flex items-center gap-2 text-lg font-medium">
+                <span>📘</span>
+                <span>Read Chapter 5: Biology</span>
               </div>
+              <p class="text-sm text-gray-400">Due: <span class="text-red-500 font-semibold">Today</span></p>
             </div>
-            <span class="text-sm bg-blue-100 text-blue-600 px-3 py-1 rounded-full font-semibold">+10 XP</span>
           </div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm bg-blue-100 text-blue-600 px-3 py-1 rounded-full font-semibold">+10 XP</span>
+            <button class="edit-btn text-blue-600 hover:underline text-sm" data-id="quest1">Edit</button>
+          </div>
+        </div>
       
           <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
             <div class="flex items-center gap-4">
-              <input type="checkbox" class="h-5 w-5 accent-blue-600">
+              <input type="checkbox" class="quest-checkbox" data-xp="15" data-id="quest2">
               <div>
                 <div class="flex items-center gap-2 text-lg font-medium">
                   <span>📝</span>
@@ -150,11 +156,12 @@
               </div>
             </div>
             <span class="text-sm bg-green-100 text-green-600 px-3 py-1 rounded-full font-semibold">+15 XP</span>
+            <button class="edit-btn text-blue-600 hover:underline text-sm" data-id="quest2">Edit</button>
           </div>
       
           <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
             <div class="flex items-center gap-4">
-              <input type="checkbox" class="h-5 w-5 accent-blue-600">
+              <input type="checkbox" class="quest-checkbox" data-xp="5" data-id="quest3">
               <div>
                 <div class="flex items-center gap-2 text-lg font-medium">
                   <span>📖</span>
@@ -164,12 +171,42 @@
               </div>
             </div>
             <span class="text-sm bg-purple-100 text-purple-600 px-3 py-1 rounded-full font-semibold">+5 XP</span>
+            <button class="edit-btn text-blue-600 hover:underline text-sm" data-id="quest3">Edit</button>
           </div>
-        </div>
-      </section>
+        </div>                                                                                                 
+      </section>              
   </main>
 
+  <!-- Edit Quest Modal -->
+  <div id="editModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-lg">
+      <h2 class="text-xl font-semibold mb-4">Edit Quest</h2>
+      <form id="editQuestForm" class="space-y-4">
+        <input type="hidden" id="editQuestId">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Title</label>
+          <input type="text" id="editQuestTitle" class="w-full border rounded px-3 py-2" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Emoji</label>
+          <input type="text" id="editQuestEmoji" class="w-full border rounded px-3 py-2" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Due Date & Time</label>
+          <input type="datetime-local" id="editQuestDue" class="w-full border rounded px-3 py-2" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">XP</label>
+          <input type="number" id="editQuestXP" class="w-full border rounded px-3 py-2" min="0" required>
+        </div>
+        <div class="flex justify-end gap-2 pt-4">
+          <button type="button" id="cancelEditBtn" class="px-4 py-2 text-sm bg-gray-100 rounded hover:bg-gray-200">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="js/dashboard.js"></script>
-  
 </body>
 </html>

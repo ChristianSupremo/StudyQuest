@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Username logic
+  // --- Username logic ---
   const usernameDisplay = document.getElementById('usernameDisplay');
   const usernameInput = document.getElementById('usernameInput');
   const editNameBtn = document.getElementById('editNameBtn');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     usernameInput.classList.add('hidden');
   });
 
-  // Avatar logic
+  // --- Avatar logic ---
   const avatarImg = document.getElementById('avatarImg');
   const avatarInput = document.getElementById('avatarInput');
   const changeAvatarBtn = document.getElementById('changeAvatarBtn');
@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // About Me
+  // --- About Me ---
   const aboutMe = document.getElementById('aboutMe');
   aboutMe.addEventListener('input', () => {
     localStorage.setItem('studyquest-about', aboutMe.value);
   });
 
-  // Load saved data
+  // --- Load saved data ---
   const savedName = localStorage.getItem('studyquest-username');
   if (savedName) usernameDisplay.textContent = savedName;
 
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const savedAbout = localStorage.getItem('studyquest-about');
   if (savedAbout) aboutMe.value = savedAbout;
 
-  // Pomodoro Logic with Session Types
+  // --- Pomodoro Logic ---
   let timerInterval;
   let isRunning = false;
   let currentMode = 'pomodoro';
@@ -128,27 +128,205 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function highlightActiveButton(activeMode) {
     Object.entries(sessionButtons).forEach(([mode, btn]) => {
-      if (mode === activeMode) {
-        btn.classList.add('ring', 'ring-offset-2', 'ring-black');
-      } else {
-        btn.classList.remove('ring', 'ring-offset-2', 'ring-black');
-      }
+      btn.classList.toggle('ring', mode === activeMode);
+      btn.classList.toggle('ring-offset-2', mode === activeMode);
+      btn.classList.toggle('ring-black', mode === activeMode);
     });
   }
 
   function formatMode(mode) {
-    switch (mode) {
-      case 'pomodoro':
-        return 'Pomodoro';
-      case 'short':
-        return 'Short Break';
-      case 'long':
-        return 'Long Break';
-      default:
-        return '';
-    }
+    return {
+      pomodoro: 'Pomodoro',
+      short: 'Short Break',
+      long: 'Long Break',
+    }[mode] || '';
   }
 
   updateDisplay();
   highlightActiveButton(currentMode);
+
+  // --- XP System Setup ---
+  const xpBar = document.querySelector('.bg-blue-600');
+  const xpText = document.querySelector('.text-gray-500');
+  let totalXP = parseInt(localStorage.getItem('studyquest-xp')) || 0;
+
+  function updateXPDisplay() {
+    const currentXP = totalXP % 300;
+    const level = Math.floor(totalXP / 300);
+    const percentage = (currentXP / 300) * 100;
+    xpBar.style.width = `${percentage}%`;
+    xpText.textContent = `Level ${level} • XP: ${currentXP} / 300`;
+  }
+
+  updateXPDisplay();
+
+  // --- Quest System Update ---
+  const questsContainer = document.querySelector('.grid.gap-4');
+  const QUESTS_KEY = 'studyquest-quests';
+
+  let quests = JSON.parse(localStorage.getItem(QUESTS_KEY)) || [];
+
+  function saveQuests() {
+    localStorage.setItem(QUESTS_KEY, JSON.stringify(quests));
+  }
+
+  function getTimeRemaining(dueDateStr) {
+    const dueDate = new Date(dueDateStr);
+    const now = new Date();
+    const diff = dueDate - now;
+
+    if (diff <= 0) return { text: 'Overdue', class: 'text-red-500' };
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+    let dueText = `Due in ${days}d ${hours}h ${minutes}m`;
+
+    let dueClass = 'text-indigo-500';
+    if (days < 1) dueClass = 'text-red-500';
+    else if (days === 1) dueClass = 'text-yellow-500';
+
+    return { text: dueText, class: dueClass };
+  }
+
+  function renderQuests() {
+    questsContainer.innerHTML = '';
+
+    quests.forEach((quest) => {
+      const { text: dueText, class: dueClass } = getTimeRemaining(quest.due);
+
+      const questEl = document.createElement('div');
+      questEl.className = 'bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between';
+
+      questEl.innerHTML = `
+        <div class="flex items-center gap-4">
+          <input type="checkbox" class="h-5 w-5 accent-blue-600" data-id="${quest.id}" ${quest.completed ? 'checked' : ''}>
+          <div>
+            <div class="flex items-center gap-2 text-lg font-medium ${quest.completed ? 'line-through text-gray-400' : ''}">
+              <span>${quest.emoji}</span>
+              <span>${quest.title}</span>
+            </div>
+            <p class="text-sm text-gray-400">Due: <span class="${dueClass} font-semibold">${dueText}</span></p>
+          </div>
+        </div>
+        <div class="flex gap-2 items-center">
+          <span class="text-sm bg-blue-100 text-blue-600 px-3 py-1 rounded-full font-semibold">+${quest.xp} XP</span>
+          <button class="edit-btn text-xs text-gray-500 hover:underline" data-id="${quest.id}">Edit</button>
+          <button class="delete-btn text-xs text-red-500 hover:underline" data-id="${quest.id}">Delete</button>
+        </div>
+      `;
+
+      questsContainer.appendChild(questEl);
+    });
+
+    document.querySelectorAll('.delete-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const id = parseInt(button.dataset.id);
+        const quest = quests.find(q => q.id === id);
+        if (quest && quest.completed) {
+          totalXP = Math.max(0, totalXP - quest.xp);
+          localStorage.setItem('studyquest-xp', totalXP);
+          updateXPDisplay();
+        }
+        quests = quests.filter(q => q.id !== id);
+        saveQuests();
+        renderQuests();
+      });
+    });
+
+    document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+      checkbox.addEventListener('change', (e) => {
+        const questId = parseInt(e.target.getAttribute('data-id'));
+        const quest = quests.find((q) => q.id === questId);
+
+        if (quest) {
+          if (e.target.checked && !quest.completed) {
+            totalXP += quest.xp;
+          } else if (!e.target.checked && quest.completed) {
+            totalXP = Math.max(0, totalXP - quest.xp);
+          }
+
+          quest.completed = e.target.checked;
+          localStorage.setItem('studyquest-xp', totalXP);
+          updateXPDisplay();
+          saveQuests();
+          renderQuests();
+        }
+      });
+    });
+
+    document.querySelectorAll('.edit-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const id = parseInt(button.dataset.id);
+        const quest = quests.find(q => q.id === id);
+
+        if (quest) {
+          document.getElementById('editQuestId').value = quest.id;
+          document.getElementById('editQuestTitle').value = quest.title;
+          document.getElementById('editQuestEmoji').value = quest.emoji;
+          document.getElementById('editQuestDue').value = quest.due;
+          document.getElementById('editQuestXP').value = quest.xp;
+
+          document.getElementById('editModal').classList.remove('hidden');
+        }
+      });
+    });
+  }
+
+  renderQuests();
+
+  document.getElementById('cancelEditBtn').addEventListener('click', () => {
+    document.getElementById('editModal').classList.add('hidden');
+  });
+
+  document.getElementById('editQuestForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const id = parseInt(document.getElementById('editQuestId').value);
+    const title = document.getElementById('editQuestTitle').value.trim();
+    const emoji = document.getElementById('editQuestEmoji').value.trim();
+    const due = document.getElementById('editQuestDue').value;
+    const xp = parseInt(document.getElementById('editQuestXP').value);
+
+    const quest = quests.find(q => q.id === id);
+    if (quest) {
+      quest.title = title;
+      quest.emoji = emoji;
+      quest.due = due;
+      quest.xp = xp;
+
+      saveQuests();
+      renderQuests();
+      document.getElementById('editModal').classList.add('hidden');
+    }
+  });
+
+  const questForm = document.getElementById('questForm');
+  if (questForm) {
+    questForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const title = document.getElementById('questTitle').value.trim();
+      const emoji = document.getElementById('questEmoji').value.trim();
+      const due = document.getElementById('questDue').value.trim();
+      const xp = parseInt(document.getElementById('questXP').value);
+
+      if (title && emoji && due && !isNaN(xp)) {
+        const newQuest = {
+          id: Date.now(),
+          title,
+          emoji,
+          due,
+          xp,
+          completed: false
+        };
+
+        quests.push(newQuest);
+        saveQuests();
+        renderQuests();
+        questForm.reset();
+      }
+    });
+  }
 });
