@@ -146,19 +146,50 @@ document.addEventListener('DOMContentLoaded', function () {
   highlightActiveButton(currentMode);
 
   // --- XP System Setup ---
-  const xpBar = document.querySelector('.bg-blue-600');
-  const xpText = document.querySelector('.text-gray-500');
+  const XP_PER_LEVEL = 300;
   let totalXP = parseInt(localStorage.getItem('studyquest-xp')) || 0;
+  let previousLevel = Math.floor(totalXP / XP_PER_LEVEL);
+
+  const xpBar = document.getElementById('xpBar');
+  const xpText = document.getElementById('xpText');
+  const levelDisplay = document.getElementById('levelDisplay');
 
   function updateXPDisplay() {
-    const currentXP = totalXP % 300;
-    const level = Math.floor(totalXP / 300);
-    const percentage = (currentXP / 300) * 100;
+    const level = Math.floor(totalXP / XP_PER_LEVEL);
+    const currentXP = totalXP % XP_PER_LEVEL;
+    const percentage = (currentXP / XP_PER_LEVEL) * 100;
+
     xpBar.style.width = `${percentage}%`;
-    xpText.textContent = `Level ${level} • XP: ${currentXP} / 300`;
+    xpText.textContent = `XP: ${currentXP} / ${XP_PER_LEVEL}`;
+    levelDisplay.textContent = `Level ${level}`;
+
+    if (level > previousLevel) {
+      showLevelUpModal(level);
+    }
+
+    previousLevel = level;
+  }
+
+  function saveXP() {
+    localStorage.setItem('studyquest-xp', totalXP);
   }
 
   updateXPDisplay();
+
+  function showLevelUpModal(newLevel) {
+    const modal = document.getElementById('levelUpModal');
+    const message = document.getElementById('levelUpMessage');
+    const closeBtn = document.getElementById('closeLevelUpModal');
+
+    message.innerHTML = `You've reached <span class="font-bold text-green-600">Level ${newLevel}</span>!`;
+    modal.classList.remove('hidden');
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
+  }
+
+
 
   // --- Quest System Update ---
   const questsContainer = document.querySelector('.grid.gap-4');
