@@ -6,6 +6,8 @@
   <title>StudyQuest Dashboard</title>
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emoji-mart@latest/css/emoji-mart.css" />
+  <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
@@ -119,12 +121,12 @@
       </section>
     </main>
 
-
-    <!-- Add Quests -->
-
     <!-- Today's Quests -->
     <section class="mt-12 px-6 max-w-4xl mx-auto">
         <h3 class="text-2xl font-semibold mb-6">Today's Quests</h3>
+        <button id="openQuestModal" class="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 text-sm">
+          + Create New Quest
+        </button>
         <div class="grid gap-4">
           <!-- Quest Item -->
         <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
@@ -173,7 +175,56 @@
             <span class="text-sm bg-purple-100 text-purple-600 px-3 py-1 rounded-full font-semibold">+5 XP</span>
             <button class="edit-btn text-blue-600 hover:underline text-sm" data-id="quest3">Edit</button>
           </div>
-        </div>                                                                                                 
+        </div>
+        
+        <!-- Create Quest Modal -->
+        <div id="questModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+          <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
+            <h4 class="text-lg font-semibold mb-4">Create New Quest</h4>
+            <form id="questForm" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Title</label>
+                <input type="text" id="questTitle" required class="w-full border rounded px-3 py-2">
+              </div>
+              <div class="relative w-full max-w-sm">
+                <label for="questEmoji" class="block text-sm font-medium text-gray-700 mb-1">
+                  Emoji
+                </label>
+                <div class="relative">
+                  <input
+                    type="text"
+                    id="questEmoji"
+                    maxlength="2"
+                    class="w-full border rounded px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Choose an emoji"
+                  />
+                  <button
+                    type="button"
+                    id="emoji-button"
+                    class="absolute inset-y-0 right-2 flex items-center text-xl cursor-pointer hover:scale-110 transition bg-transparent border-none p-0 appearance-none select-none"
+                    aria-label="Open emoji picker"
+                    style="font-family: 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','EmojiOne Color','Twemoji Mozilla','sans-serif';"
+                  >
+                    😊
+                  </button>
+                </div>
+                <div id="emoji-picker-container" class="absolute z-50 hidden top-full right-0 mt-2"></div>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Due Date & Time</label>
+                <input type="datetime-local" id="questDue" required class="w-full border rounded px-3 py-2">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700">XP</label>
+                <input type="number" id="questXP" min="1" required class="w-full border rounded px-3 py-2">
+              </div>
+              <div class="flex justify-end gap-3">
+                <button type="button" id="cancelQuest" class="px-4 py-2 rounded-md bg-gray-300 hover:bg-gray-400 text-black">Cancel</button>
+                <button type="submit" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700">Add Quest</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </section>              
   </main>
 
@@ -187,9 +238,27 @@
           <label class="block text-sm font-medium text-gray-700">Title</label>
           <input type="text" id="editQuestTitle" class="w-full border rounded px-3 py-2" required>
         </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Emoji</label>
-          <input type="text" id="editQuestEmoji" class="w-full border rounded px-3 py-2" required>
+        <div class="relative">
+          <label for="editQuestEmoji" class="block text-sm font-medium text-gray-700 mb-1">Emoji</label>
+          <div class="relative">
+            <input
+              type="text"
+              id="editQuestEmoji"
+              maxlength="2"
+              class="w-full border rounded px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Choose an emoji"
+              required
+            />
+            <button
+              type="button"
+              id="edit-emoji-button"
+              class="absolute inset-y-0 right-2 flex items-center text-xl cursor-pointer hover:scale-110 transition bg-transparent border-none p-0 appearance-none select-none"
+              aria-label="Open emoji picker"
+            >
+              😊
+            </button>
+          </div>
+          <div id="edit-emoji-picker-container" class="absolute z-50 hidden top-full right-0 mt-2"></div>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Due Date & Time</label>

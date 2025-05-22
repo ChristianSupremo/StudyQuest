@@ -172,6 +172,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function getTimeRemaining(dueDateStr) {
     const dueDate = new Date(dueDateStr);
+    if (isNaN(dueDate)) {
+      return { text: dueDateStr, class: 'text-gray-400' }; // fallback for legacy quests
+    }
+
     const now = new Date();
     const diff = dueDate - now;
 
@@ -308,25 +312,119 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
 
       const title = document.getElementById('questTitle').value.trim();
-      const emoji = document.getElementById('questEmoji').value.trim();
+      const emoji = document.getElementById('questEmoji').value.trim() || '🗒️';
+      const xp = parseInt(document.getElementById('questXP').value.trim());
       const due = document.getElementById('questDue').value.trim();
-      const xp = parseInt(document.getElementById('questXP').value);
 
-      if (title && emoji && due && !isNaN(xp)) {
+      const dueDate = new Date(due);
+      const now = new Date();
+      const maxDate = new Date();
+      maxDate.setFullYear(now.getFullYear() + 2); // e.g., allow up to 2 years in future
+
+      // ✅ New Validations
+      if (
+        !title ||
+        isNaN(xp) ||
+        !due ||
+        isNaN(dueDate.getTime()) || // Invalid date
+        dueDate < now ||            // Date is in the past
+        dueDate > maxDate           // Too far in the future
+      ) {
+        alert('Please enter valid quest details. Date must be within the next 2 years.');
+        return;
+      }
+
+      const newQuest = {
+        id: Date.now(),
+        title,
+        emoji,
+        xp,
+        due,
+        completed: false
+      };
+
+      quests.push(newQuest);
+      saveQuests();
+      renderQuests();
+      questForm.reset();
+      questModal.classList.add('hidden');
+    });
+  }
+
+    // Create Quest Modal Logic
+    const openQuestModal = document.getElementById('openQuestModal');
+    const questModal = document.getElementById('questModal');
+    const cancelQuest = document.getElementById('cancelQuest');
+
+    if (openQuestModal && questModal && cancelQuest && questForm) {
+      openQuestModal.addEventListener('click', () => {
+        questModal.classList.remove('hidden');
+      });
+
+      cancelQuest.addEventListener('click', () => {
+        questModal.classList.add('hidden');
+      });
+
+      questForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const title = document.getElementById('questTitle').value.trim();
+        const emoji = document.getElementById('questEmoji').value.trim() || '🗒️';
+        const xp = parseInt(document.getElementById('questXP').value.trim());
+        const due = document.getElementById('questDue').value.trim();
+        const dueColor = getDueColor(due);
+
+        if (!title || isNaN(xp) || !due) return;
+
         const newQuest = {
           id: Date.now(),
           title,
           emoji,
-          due,
           xp,
-          completed: false
+          due,
+          completed: false,
+          dueColor
         };
 
         quests.push(newQuest);
         saveQuests();
         renderQuests();
         questForm.reset();
-      }
-    });
-  }
+        questModal.classList.add('hidden');
+      });
+    }
+
+    //Emoji function
+    function setupEmojiPicker(buttonId, inputId, containerId) {
+      const button = document.getElementById(buttonId);
+      const input = document.getElementById(inputId);
+      const container = document.getElementById(containerId);
+
+      let pickerOpen = false;
+
+      button.addEventListener('click', () => {
+        if (pickerOpen) {
+          container.classList.add('hidden');
+          pickerOpen = false;
+          return;
+        }
+
+        const picker = new EmojiMart.Picker({
+          onEmojiSelect: (emoji) => {
+            input.value = emoji.native;
+            container.classList.add('hidden');
+            pickerOpen = false;
+          },
+          theme: 'light'
+        });
+
+        container.innerHTML = '';
+        container.appendChild(picker);
+        container.classList.remove('hidden');
+        pickerOpen = true;
+      });
+    }
+    setupEmojiPicker('emoji-button', 'questEmoji', 'emoji-picker-container');
+    setupEmojiPicker('edit-emoji-button', 'editQuestEmoji', 'edit-emoji-picker-container');
 });
+
