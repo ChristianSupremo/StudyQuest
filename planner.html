@@ -81,15 +81,15 @@
     </div>
   </main>
 
-  <!-- Add Task Modal (Hidden for now) -->
+  <!-- Add Task Modal -->
   <div id="task-modal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center">
     <div class="bg-white p-6 rounded-xl w-full max-w-md shadow-md">
       <h3 class="text-xl font-semibold mb-4">Add New Task</h3>
-      <input type="text" placeholder="Task Name" class="w-full mb-3 px-4 py-2 border rounded" />
-      <input type="date" class="w-full mb-4 px-4 py-2 border rounded" />
+      <input id="taskName" type="text" placeholder="Task Name" class="w-full mb-3 px-4 py-2 border rounded" />
+      <input id="taskDue" type="datetime-local" class="w-full mb-4 px-4 py-2 border rounded" />
       <div class="flex justify-end space-x-2">
         <button onclick="document.getElementById('task-modal').classList.add('hidden')" class="px-4 py-2 text-gray-500 hover:text-gray-700">Cancel</button>
-        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+        <button id="task-modal-save" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
       </div>
     </div>
   </div>
