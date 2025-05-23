@@ -457,5 +457,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     setupEmojiPicker('emoji-button', 'questEmoji', 'emoji-picker-container');
     setupEmojiPicker('edit-emoji-button', 'editQuestEmoji', 'edit-emoji-picker-container');
+
+    //Emoji only field
+    function restrictToEmojiOnly(inputId, maxLength = 2) {
+      const input = document.getElementById(inputId);
+      input.addEventListener('input', (e) => {
+        const value = e.target.value;
+        const emojiOnly = [...value].filter(char => /\p{Extended_Pictographic}/u.test(char)).join('');
+        e.target.value = emojiOnly.slice(0, maxLength);
+      });
+    }
+
+    // Apply to both fields
+    restrictToEmojiOnly('questEmoji');
+    restrictToEmojiOnly('editQuestEmoji');
+
 });
 
