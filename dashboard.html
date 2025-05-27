@@ -130,54 +130,8 @@
         <button id="openQuestModal" class="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 text-sm">
           + Create New Quest
         </button>
-        <div class="grid gap-4">
-          <!-- Quest Item -->
-        <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
-          <div class="flex items-center gap-4">
-            <input type="checkbox" class="quest-checkbox h-5 w-5 accent-blue-600" data-xp="10" data-id="quest1">
-            <div>
-              <div class="flex items-center gap-2 text-lg font-medium">
-                <span>📘</span>
-                <span>Read Chapter 5: Biology</span>
-              </div>
-              <p class="text-sm text-gray-400">Due: <span class="text-red-500 font-semibold">Today</span></p>
-            </div>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-sm bg-blue-100 text-blue-600 px-3 py-1 rounded-full font-semibold">+10 XP</span>
-            <button class="edit-btn bg-yellow-400 text-white hover:bg-yellow-500 text-lg p-2 rounded" title="Edit Task">✏️</button> 
-          </div>
-          
-        </div>
-          <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-              <input type="checkbox" class="quest-checkbox" data-xp="15" data-id="quest2">
-              <div>
-                <div class="flex items-center gap-2 text-lg font-medium">
-                  <span>📝</span>
-                  <span>Submit Math Homework</span>
-                </div>
-                <p class="text-sm text-gray-400">Due: <span class="text-yellow-500 font-semibold">Tomorrow</span></p>
-              </div>
-            </div>
-            <span class="text-sm bg-green-100 text-green-600 px-3 py-1 rounded-full font-semibold">+15 XP</span>
-            <button class="edit-btn text-blue-600 hover:underline text-sm" data-id="quest2">Edit</button>
-          </div>
-      
-          <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all p-6 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-              <input type="checkbox" class="quest-checkbox" data-xp="5" data-id="quest3">
-              <div>
-                <div class="flex items-center gap-2 text-lg font-medium">
-                  <span>📖</span>
-                  <span>Review Flashcards</span>
-                </div>
-                <p class="text-sm text-gray-400">Due: <span class="text-indigo-500 font-semibold">Tonight</span></p>
-              </div>
-            </div>
-            <span class="text-sm bg-purple-100 text-purple-600 px-3 py-1 rounded-full font-semibold">+5 XP</span>
-            <button class="edit-btn text-blue-600 hover:underline text-sm" data-id="quest3">Edit</button>
-          </div>
+        <div id="questList" class="grid gap-4">
+          <!-- Quest Items will be rendered here -->
         </div>
         
         <!-- Create Quest Modal -->
